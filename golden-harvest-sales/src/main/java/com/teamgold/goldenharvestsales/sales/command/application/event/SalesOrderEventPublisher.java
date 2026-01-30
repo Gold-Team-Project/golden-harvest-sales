@@ -1,0 +1,17 @@
+package com.teamgold.goldenharvestsales.sales.command.application.event;
+
+import com.teamgold.goldenharvestsales.sales.command.application.event.dto.SalesOrderEvent;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.stereotype.Component;
+
+@Component
+@RequiredArgsConstructor
+public class SalesOrderEventPublisher {
+
+    private final ApplicationEventPublisher eventPublisher;
+
+    public void publishSalesOrderEvent(SalesOrderEvent salesOrderEvent) {
+        eventPublisher.publishEvent(salesOrderEvent);
+    }
+}
