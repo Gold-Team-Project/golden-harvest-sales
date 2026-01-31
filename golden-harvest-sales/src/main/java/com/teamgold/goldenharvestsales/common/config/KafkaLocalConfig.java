@@ -27,7 +27,7 @@ public class KafkaLocalConfig {
     public ConsumerFactory<String, Object> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, "golden.harvest.inventory.processor");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "golden.harvest.sales.processor");
         props.put("spring.json.use.type.headers", false);
         props.put("spring.json.value.default.type", "com.teamgold.goldenharvest.domain.inventory.command.application.event.dto.SalesOrderEvent");
         props.put("spring.json.trusted.packages", "*");
