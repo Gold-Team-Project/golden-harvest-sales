@@ -38,6 +38,14 @@ public class KafkaProdConfig {
         props.put("sasl.jaas.config", "software.amazon.msk.auth.iam.IAMLoginModule required;");
         props.put("sasl.client.callback.handler.class", "software.amazon.msk.auth.iam.IAMClientCallbackHandler");
 
+        props.put("spring.json.use.type.headers", true);
+
+        String typeMapping = "ItemMasterUpdatedEvent:com.teamgold.goldenharvestsales.sales.command.application.event.dto.ItemMasterUpdatedEvent, " +
+                "UserUpdatedEvent:com.teamgold.goldenharvestsales.sales.command.application.event.dto.UserUpdatedEvent";
+        props.put("spring.json.type.mapping", typeMapping);
+
+        props.put("spring.json.trusted.packages", "*");
+
         StringDeserializer keyDeserializer = new StringDeserializer();
 
         JsonMapper jsonMapper = JsonMapper.builder().build();

@@ -1,6 +1,6 @@
 package com.teamgold.goldenharvestsales.sales.command.application.event;
 
-import com.teamgold.goldenharvestsales.event.ItemMasterUpdatedEvent;
+import com.teamgold.goldenharvestsales.sales.command.application.event.dto.ItemMasterUpdatedEvent;
 import com.teamgold.goldenharvestsales.sales.command.domain.SalesSku;
 import com.teamgold.goldenharvestsales.sales.command.infrastructure.repository.SalesSkuRepository;
 import lombok.RequiredArgsConstructor;

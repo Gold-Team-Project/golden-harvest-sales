@@ -5,7 +5,7 @@ import com.teamgold.goldenharvestsales.common.exception.ErrorCode;
 import com.teamgold.goldenharvestsales.event.AvailableItemResponse;
 import com.teamgold.goldenharvestsales.sales.command.application.dto.*;
 import com.teamgold.goldenharvestsales.sales.command.application.event.SalesOrderEventPublisher;
-import com.teamgold.goldenharvestsales.sales.command.application.event.dto.SalesOrderEvent;
+import com.teamgold.goldenharvestsales.sales.command.application.event.dto.SalesOrderCreatedEvent;
 import com.teamgold.goldenharvestsales.sales.command.domain.cart.Cart;
 import com.teamgold.goldenharvestsales.sales.command.domain.cart.CartItem;
 import com.teamgold.goldenharvestsales.sales.command.domain.cart.CartStatus;
@@ -202,7 +202,7 @@ public class CartServiceImpl implements com.teamgold.goldenharvest.domain.sales.
         // 주문 생성 이벤트 발행
         for (SalesOrderItem item : salesOrderItems) {
             eventPublisher.publishSalesOrderEvent(
-                    SalesOrderEvent.builder()
+                    SalesOrderCreatedEvent.builder()
                             .salesOrderItemId(item.getSalesOrderItemId())
                             .salesPrice(item.getPrice())
                             .skuNo(item.getSkuNo())

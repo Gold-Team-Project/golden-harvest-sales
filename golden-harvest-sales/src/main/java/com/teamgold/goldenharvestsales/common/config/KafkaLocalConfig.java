@@ -28,8 +28,12 @@ public class KafkaLocalConfig {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "golden.harvest.sales.processor");
-        props.put("spring.json.use.type.headers", false);
-        props.put("spring.json.value.default.type", "com.teamgold.goldenharvest.domain.inventory.command.application.event.dto.SalesOrderEvent");
+        props.put("spring.json.use.type.headers", true);
+
+        String typeMapping = "ItemMasterUpdatedEvent:com.teamgold.goldenharvestsales.sales.command.application.event.dto.ItemMasterUpdatedEvent, " +
+                "UserUpdatedEvent:com.teamgold.goldenharvestsales.sales.command.application.event.dto.UserUpdatedEvent";
+        props.put("spring.json.type.mapping", typeMapping);
+
         props.put("spring.json.trusted.packages", "*");
 
         StringDeserializer keyDeserializer = new StringDeserializer();
@@ -61,6 +65,11 @@ public class KafkaLocalConfig {
     public ProducerFactory<String, Object> producerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+
+        String typeMapping =
+                "SalesOrderCreatedEvent:com.teamgold.goldenharvestsales.sales.command.application.event.dto.SalesOrderEvent";
+
+        props.put("spring.json.type.mapping", typeMapping);
 
         StringSerializer keySerializer = new StringSerializer();
 
