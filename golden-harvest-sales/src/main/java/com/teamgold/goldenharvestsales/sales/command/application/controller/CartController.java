@@ -4,7 +4,7 @@ import com.teamgold.goldenharvestsales.common.response.ApiResponse;
 import com.teamgold.goldenharvestsales.sales.command.application.dto.AddToCartRequest;
 import com.teamgold.goldenharvestsales.sales.command.application.dto.CartResponse;
 import com.teamgold.goldenharvestsales.sales.command.application.dto.UpdateCartItemRequest;
-import com.teamgold.goldenharvestsales.sales.command.application.service.CartService;
+import com.teamgold.goldenharvest.domain.sales.command.application.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +17,11 @@ public class CartController {
     private final CartService cartService;
 
     @PostMapping("/items")
-    public ResponseEntity<ApiResponse<Void>> addItemToCart(@RequestHeader("Authorization") String authorizationHeader, @RequestBody AddToCartRequest request) {
+    public ResponseEntity<ApiResponse<Void>> addItemToCart(/* @RequestHeader("Authorization") String authorizationHeader, */ @RequestBody AddToCartRequest request) {
         // TODO: Spring Security 적용 후, 인증된 사용자 정보에서 이메일을 가져오도록 수정
         String userEmail = "rrrr@naver.com";
 
-        cartService.addItemToCart(authorizationHeader, userEmail, request);
+        cartService.addItemToCart(/* authorizationHeader, */ userEmail, request);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 

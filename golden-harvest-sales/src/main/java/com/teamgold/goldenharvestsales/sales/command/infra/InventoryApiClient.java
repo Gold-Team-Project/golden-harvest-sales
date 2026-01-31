@@ -1,5 +1,6 @@
 package com.teamgold.goldenharvestsales.sales.command.infra;
 
+
 import com.teamgold.goldenharvestsales.common.response.ApiResponse;
 import com.teamgold.goldenharvestsales.event.AvailableItemResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +23,7 @@ public class InventoryApiClient {
         this.restClient = builder.baseUrl(inventoryBaseUrl).build();
     }
 
-    public Optional<AvailableItemResponse> findAvailableItemBySkuNo(String authorizationHeader, String skuNo) {
+    public Optional<AvailableItemResponse> findAvailableItemBySkuNo(String skuNo) {
         try {
             ApiResponse<List<AvailableItemResponse>> response = restClient.get()
                     .uri(uriBuilder -> uriBuilder
@@ -30,11 +31,12 @@ public class InventoryApiClient {
                             .queryParam("skuNo", skuNo)
                             .build())
                     .accept(MediaType.APPLICATION_JSON)
-                    .header("Authorization", authorizationHeader)
+                    // .header("Authorization", authorizationHeader) // 임시적으로 인증 헤더 전송 비활성화
                     .retrieve()
                     .body(new ParameterizedTypeReference<>() {});
 
             if (response != null && response.isSuccess() && response.getData() != null && !response.getData().isEmpty()) {
+                // The response from /api/item is a list within ApiResponse, so we take the first element.
                 return Optional.of(response.getData().get(0));
             }
         } catch (Exception e) {
