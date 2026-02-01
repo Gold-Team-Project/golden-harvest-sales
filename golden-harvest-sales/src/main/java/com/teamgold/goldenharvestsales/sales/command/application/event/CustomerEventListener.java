@@ -1,6 +1,6 @@
 package com.teamgold.goldenharvestsales.sales.command.application.event;
 
-import com.teamgold.goldenharvestsales.event.UserUpdatedEvent;
+import com.teamgold.goldenharvestsales.sales.command.application.event.dto.UserUpdatedEvent;
 import com.teamgold.goldenharvestsales.sales.command.domain.customer.Customer;
 import com.teamgold.goldenharvestsales.sales.command.infrastructure.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
