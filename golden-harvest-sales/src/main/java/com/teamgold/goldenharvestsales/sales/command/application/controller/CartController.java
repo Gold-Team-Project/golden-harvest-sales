@@ -7,6 +7,8 @@ import com.teamgold.goldenharvestsales.sales.command.application.dto.UpdateCartI
 import com.teamgold.goldenharvest.domain.sales.command.application.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,47 +19,44 @@ public class CartController {
     private final CartService cartService;
 
     @PostMapping("/items")
-    public ResponseEntity<ApiResponse<Void>> addItemToCart(/* @RequestHeader("Authorization") String authorizationHeader, */ @RequestBody AddToCartRequest request) {
-        // TODO: Spring Security 적용 후, 인증된 사용자 정보에서 이메일을 가져오도록 수정
-        String userEmail = "rrrr@naver.com";
-
-        cartService.addItemToCart(/* authorizationHeader, */ userEmail, request);
+    public ResponseEntity<ApiResponse<Void>> addItemToCart(
+            @AuthenticationPrincipal Jwt jwt,
+            @RequestBody AddToCartRequest request) {
+        cartService.addItemToCart(jwt.getSubject(), request);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<CartResponse>> getCart() {
-        // TODO: Spring Security 적용 후, 인증된 사용자 정보에서 이메일을 가져오도록 수정
-        String userEmail = "rrrr@naver.com";
-
-        CartResponse cartResponse = cartService.getCart(userEmail);
+    public ResponseEntity<ApiResponse<CartResponse>> getCart(
+            @AuthenticationPrincipal Jwt jwt
+    ) {
+        CartResponse cartResponse = cartService.getCart(jwt.getSubject());
         return ResponseEntity.ok(ApiResponse.success(cartResponse));
     }
 
     @PutMapping("/items")
-    public ResponseEntity<ApiResponse<Void>> updateCartItemQuantity(@RequestBody UpdateCartItemRequest request) {
-        // TODO: Spring Security 적용 후, 인증된 사용자 정보에서 이메일을 가져오도록 수정
-        String userEmail = "rrrr@naver.com";
+    public ResponseEntity<ApiResponse<Void>> updateCartItemQuantity(
+            @AuthenticationPrincipal Jwt jwt,
+            @RequestBody UpdateCartItemRequest request) {
 
-        cartService.updateItemQuantity(userEmail, request);
+        cartService.updateItemQuantity(jwt.getSubject(), request);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 
     @DeleteMapping("/items/{skuNo}")
-    public ResponseEntity<ApiResponse<Void>> removeItemFromCart(@PathVariable String skuNo) {
-        // TODO: Spring Security 적용 후, 인증된 사용자 정보에서 이메일을 가져오도록 수정
-        String userEmail = "rrrr@naver.com";
+    public ResponseEntity<ApiResponse<Void>> removeItemFromCart(
+            @AuthenticationPrincipal Jwt jwt,
+            @PathVariable String skuNo) {
 
-        cartService.removeItem(userEmail, skuNo);
+        cartService.removeItem(jwt.getSubject(), skuNo);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 
     @PostMapping("/checkout")
-    public ResponseEntity<ApiResponse<String>> checkout() {
-        // TODO: Spring Security 적용 후, 인증된 사용자 정보에서 이메일을 가져오도록 수정
-        String userEmail = "rrrr@naver.com";
+    public ResponseEntity<ApiResponse<String>> checkout(
+            @AuthenticationPrincipal Jwt jwt) {
 
-        String cartId = cartService.placeOrder(userEmail);
+        String cartId = cartService.placeOrder(jwt.getSubject());
         return ResponseEntity.ok(ApiResponse.success(cartId));
     }
 }
