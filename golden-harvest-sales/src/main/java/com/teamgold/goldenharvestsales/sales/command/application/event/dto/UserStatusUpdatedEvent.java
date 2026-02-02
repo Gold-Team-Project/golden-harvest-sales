@@ -1,9 +1,9 @@
-package com.teamgold.goldenharvestsales.event;
+package com.teamgold.goldenharvestsales.sales.command.application.event.dto;
 
 import lombok.Builder;
 
 @Builder
-public record UserUpdatedEvent(
+public record UserStatusUpdatedEvent(
     String email,
     String company,
     String businessNumber,

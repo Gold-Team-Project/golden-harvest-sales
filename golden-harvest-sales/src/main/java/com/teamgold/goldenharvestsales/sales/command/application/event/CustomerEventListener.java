@@ -1,6 +1,6 @@
 package com.teamgold.goldenharvestsales.sales.command.application.event;
 
-import com.teamgold.goldenharvestsales.event.UserUpdatedEvent;
+import com.teamgold.goldenharvestsales.sales.command.application.event.dto.UserStatusUpdatedEvent;
 import com.teamgold.goldenharvestsales.sales.command.domain.customer.Customer;
 import com.teamgold.goldenharvestsales.sales.command.infrastructure.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ public class CustomerEventListener {
 
     @EventListener
     @Transactional
-    public void handleUserUpdatedEvent(UserUpdatedEvent event) {
+    public void handleUserUpdatedEvent(UserStatusUpdatedEvent event) {
         Customer customer = Customer.builder()
                 .email(event.email())
                 .company(event.company())
