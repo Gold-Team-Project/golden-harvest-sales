@@ -137,14 +137,37 @@ class SalesOrderQueryServiceTest {
     @DisplayName("단일 주문 상세 조회 성공")
     void testGetOrderDetail_Success() {
         // Given (준비)
-        OrderHistoryResponse expectedDetail = OrderHistoryResponse.builder().salesOrderId(salesOrderId).build();
+        SalesCustomerInfo customerInfo = SalesCustomerInfo.builder()
+                .email("customer@example.com")
+                .name("고객님")
+                .company("골든하베스트")
+                .phoneNumber("010-1234-5678")
+                .addressLine1("서울시 강남구")
+                .addressLine2("테헤란로 123")
+                .postalCode("06123")
+                .build();
+
+        OrderHistoryResponse expectedDetail = OrderHistoryResponse.builder()
+                .salesOrderId(salesOrderId)
+                .customerInfo(customerInfo) // 고객 정보 추가
+                .build();
         given(salesOrderMapper.findOrderDetailBySalesOrderId(salesOrderId)).willReturn(expectedDetail);
 
         // When (실행)
         OrderHistoryResponse actualDetail = salesOrderQueryService.getOrderDetail(salesOrderId);
 
         // Then (검증)
-        assertThat(actualDetail).isEqualTo(expectedDetail);
+        assertThat(actualDetail).isNotNull();
+        assertThat(actualDetail.getSalesOrderId()).isEqualTo(salesOrderId);
+
+        // 추가된 customerInfo 검증
+        SalesCustomerInfo actualCustomerInfo = actualDetail.getCustomerInfo();
+        assertThat(actualCustomerInfo).isNotNull();
+        assertThat(actualCustomerInfo.getEmail()).isEqualTo(customerInfo.getEmail());
+        assertThat(actualCustomerInfo.getName()).isEqualTo(customerInfo.getName());
+        assertThat(actualCustomerInfo.getCompany()).isEqualTo(customerInfo.getCompany());
+        assertThat(actualCustomerInfo.getPhoneNumber()).isEqualTo(customerInfo.getPhoneNumber());
+
         verify(salesOrderMapper, times(1)).findOrderDetailBySalesOrderId(salesOrderId);
     }
 

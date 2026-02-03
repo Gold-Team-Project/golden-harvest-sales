@@ -9,7 +9,7 @@ import com.teamgold.goldenharvestsales.sales.command.application.dto.CartRespons
 import com.teamgold.goldenharvestsales.sales.command.application.dto.RedisCartItem;
 import com.teamgold.goldenharvestsales.sales.command.application.dto.UpdateCartItemRequest;
 import com.teamgold.goldenharvestsales.sales.command.application.event.SalesOrderEventPublisher;
-import com.teamgold.goldenharvestsales.sales.command.application.event.dto.SalesOrderEvent;
+import com.teamgold.goldenharvestsales.sales.command.application.event.dto.SalesOrderCreatedEvent;
 import com.teamgold.goldenharvestsales.sales.command.application.service.CartServiceImpl;
 import com.teamgold.goldenharvestsales.sales.command.domain.SalesSku;
 import com.teamgold.goldenharvestsales.sales.command.domain.cart.Cart;
@@ -285,7 +285,7 @@ class CartServiceImplTest {
         verify(salesOrderRepository, times(1)).save(any(SalesOrder.class));
         verify(redisTemplate, times(1)).delete(anyString());
         // Then: 주문 생성 이벤트 발행 검증
-        verify(eventPublisher, times(2)).publishSalesOrderEvent(any(SalesOrderEvent.class));
+        verify(eventPublisher, times(2)).publishSalesOrderEvent(any(SalesOrderCreatedEvent.class));
     }
 
     @Test
