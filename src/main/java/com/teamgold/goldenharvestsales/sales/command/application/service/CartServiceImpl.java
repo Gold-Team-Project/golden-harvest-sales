@@ -6,6 +6,7 @@ import com.teamgold.goldenharvestsales.event.AvailableItemResponse;
 import com.teamgold.goldenharvestsales.sales.command.application.dto.*;
 import com.teamgold.goldenharvestsales.sales.command.application.event.SalesOrderEventPublisher;
 import com.teamgold.goldenharvestsales.sales.command.application.event.dto.SalesOrderCreatedEvent;
+import com.teamgold.goldenharvestsales.sales.command.domain.SalesSku;
 import com.teamgold.goldenharvestsales.sales.command.domain.cart.Cart;
 import com.teamgold.goldenharvestsales.sales.command.domain.cart.CartItem;
 import com.teamgold.goldenharvestsales.sales.command.domain.cart.CartStatus;
@@ -14,6 +15,7 @@ import com.teamgold.goldenharvestsales.sales.command.domain.sales_order.SalesOrd
 import com.teamgold.goldenharvestsales.sales.command.domain.sales_order.SalesOrderStatus;
 import com.teamgold.goldenharvestsales.sales.command.infra.InventoryApiClient;
 import com.teamgold.goldenharvestsales.sales.command.infrastructure.cart.CartRepository;
+import com.teamgold.goldenharvestsales.sales.command.infrastructure.repository.SalesSkuRepository;
 import com.teamgold.goldenharvestsales.sales.command.infrastructure.sales_order.SalesOrderRepository;
 import com.teamgold.goldenharvestsales.sales.command.infrastructure.sales_order.SalesOrderStatusRepository;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +42,7 @@ public class CartServiceImpl implements com.teamgold.goldenharvest.domain.sales.
     private final CartRepository cartRepository;
     private final SalesOrderRepository salesOrderRepository;
     private final SalesOrderStatusRepository salesOrderStatusRepository;
+    private final SalesSkuRepository salesSkuRepository;
     private final SalesOrderEventPublisher eventPublisher;
     private static final String CART_PREFIX = "cart:";
     private static final long CART_EXPIRE_DAYS = 30;
@@ -57,9 +60,21 @@ public class CartServiceImpl implements com.teamgold.goldenharvest.domain.sales.
             existingItem.addQuantity(request.getQuantity());
             hashOperations.put(cartKey, request.getSkuNo(), existingItem);
         } else {
-            // 2b. 상품이 없으면 Inventory 서비스를 통해 상품 정보 조회
-            AvailableItemResponse item = inventoryApiClient.findAvailableItemBySkuNo(/* authorizationHeader, */ request.getSkuNo())
-                    .orElseThrow(() -> new BusinessException(ErrorCode.PRODUCT_NOT_FOUND));
+            // 2b. 상품이 없으면 SalesSku에서 fetch
+            SalesSku itemInfo = salesSkuRepository.findBySkuNo(request.getSkuNo()).orElseThrow(
+                    () -> new BusinessException(ErrorCode.ORDER_STATUS_NOT_FOUND)
+            );
+
+            AvailableItemResponse item = AvailableItemResponse.builder()
+                    .skuNo(itemInfo.getSkuNo())
+                    .itemName(itemInfo.getItemName())
+                    .gradeName(itemInfo.getGradeName())
+                    .varietyName(itemInfo.getVarietyName())
+                    .baseUnit(itemInfo.getBaseUnit())
+                    .customerPrice(itemInfo.getCurrentOriginPrice() * 1.2d)
+                    .fileUrl(itemInfo.getFileUrl())
+                    .quantity(request.getQuantity())
+                    .build();
 
             // 3. 상품 정보를 바탕으로 장바구니 아이템 생성
             RedisCartItem newItem = RedisCartItem.from(item, request.getQuantity());

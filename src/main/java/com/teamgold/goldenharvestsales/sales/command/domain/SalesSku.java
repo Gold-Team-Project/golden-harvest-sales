@@ -23,4 +23,13 @@ public class SalesSku {
 
     @Column(name = "variety_name", length = 20)
     private String varietyName; // 품종명
+
+    @Column(name = "base_unit")
+    private String baseUnit;
+
+    @Column(name = "file_url")
+    private String fileUrl;
+
+    @Column(name = "current_origin_price")
+    private Double currentOriginPrice;
 }
