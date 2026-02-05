@@ -27,13 +27,13 @@
         </collection>
     </resultMap>
 
-    <resultMap id="adminOrderHistoryResultMap" type="com.teamgold.goldenharvestsales.domain.sales.query.application.dto.AdminOrderHistoryResponse">
+    <resultMap id="adminOrderHistoryResultMap" type="com.teamgold.goldenharvestsales.sales.query.application.dto.AdminOrderHistoryResponse">
         <id property="salesOrderId" column="sales_order_id"/>
         <result property="orderStatus" column="sales_status_name"/>
         <result property="createdAt" column="created_at"/>
         <result property="totalAmount" column="total_amount"/>
         <result property="company" column="company"/>
-        <collection property="orderItems" ofType="com.teamgold.goldenharvestsales.domain.sales.query.application.dto.OrderHistoryItem">
+        <collection property="orderItems" ofType="com.teamgold.goldenharvestsales.sales.query.application.dto.OrderHistoryItem">
             <result property="itemName" column="item_name"/>
             <result property="gradeName" column="grade_name"/>
             <result property="varietyName" column="variety_name"/>
@@ -42,18 +42,18 @@
         </collection>
     </resultMap>
 
-    <resultMap id="adminOrderDetailResultMap" type="com.teamgold.goldenharvestsales.domain.sales.query.application.dto.AdminOrderDetailResponse">
+    <resultMap id="adminOrderDetailResultMap" type="com.teamgold.goldenharvestsales.sales.query.application.dto.AdminOrderDetailResponse">
         <id property="salesOrderId" column="sales_order_id"/>
         <result property="orderStatus" column="sales_status_name"/>
         <result property="createdAt" column="created_at"/>
         <result property="totalAmount" column="total_amount"/>
         <result property="company" column="company"/>
-        <result property="name" column="customer_name"/>
-        <result property="phoneNumber" column="customer_phone"/>
-        <result property="addressLine1" column="address_line1"/>
-        <result property="addressLine2" column="address_line2"/>
-        <result property="postalCode" column="postal_code"/>
-        <collection property="orderItems" ofType="com.teamgold.goldenharvestsales.domain.sales.query.application.dto.OrderHistoryItem">
+        <result property="name" column="name"/>
+        <result property="phoneNumber" column="phoneNumber"/>
+        <result property="addressLine1" column="addressLine1"/>
+        <result property="addressLine2" column="addressLine2"/>
+        <result property="postalCode" column="postalCode"/>
+        <collection property="orderItems" ofType="com.teamgold.goldenharvestsales.sales.query.application.dto.OrderHistoryItem">
             <result property="itemName" column="item_name"/>
             <result property="gradeName" column="grade_name"/>
             <result property="varietyName" column="variety_name"/>
