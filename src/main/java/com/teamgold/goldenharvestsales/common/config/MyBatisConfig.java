@@ -25,7 +25,8 @@ public class MyBatisConfig {
         sessionFactory.setTypeAliasesPackage("com.teamgold.goldenharvestsales");
         // application.yaml에 설정된 map-underscore-to-camel-case 값을 참조합니다.
 
-        sessionFactory.setMapperLocations(applicationContext.getResources("classpath:mapper/**/*.xml"));
+        sessionFactory.setMapperLocations(applicationContext.getResources("classpath:sales/**/*.xml"));
+
         org.apache.ibatis.session.Configuration mybatisConfig = new org.apache.ibatis.session.Configuration();
         mybatisConfig.setMapUnderscoreToCamelCase(true);
         sessionFactory.setConfiguration(mybatisConfig);
