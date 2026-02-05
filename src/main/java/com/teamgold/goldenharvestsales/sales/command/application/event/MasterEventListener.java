@@ -25,6 +25,9 @@ public class MasterEventListener {
                 .itemName(itemMasterUpdatedEvent.itemName())
                 .gradeName(itemMasterUpdatedEvent.gradeName())
                 .varietyName(itemMasterUpdatedEvent.varietyName())
+                .baseUnit(itemMasterUpdatedEvent.baseUnit())
+                .currentOriginPrice(itemMasterUpdatedEvent.currentOriginPrice().doubleValue())
+                .fileUrl(itemMasterUpdatedEvent.fileUrl())
                 .build();
 
         // Sales 서비스의 DB에 저장
