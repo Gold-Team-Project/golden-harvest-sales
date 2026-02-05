@@ -12,10 +12,6 @@ import javax.sql.DataSource;
 
 @Configuration
 @MapperScan(basePackages = {
-        "com.teamgold.goldenharvest.domain.notification.query.mapper",
-        "com.teamgold.goldenharvest.domain.master.query.mapper",
-        "com.teamgold.goldenharvest.domain.inventory.query.mapper",
-        "com.teamgold.goldenharvest.domain.customersupport.query.mapper",
         "com.teamgold.goldenharvestsales.sales.query.application.mapper"
 })
 public class MyBatisConfig {
