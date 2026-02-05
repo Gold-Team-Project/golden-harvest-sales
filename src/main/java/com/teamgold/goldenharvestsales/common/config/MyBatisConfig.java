@@ -22,8 +22,10 @@ public class MyBatisConfig {
         sessionFactory.setDataSource(dataSource);
         // application.yaml에 설정된 mapper-locations 값을 참조합니다.
         // application.yaml에 설정된 type-aliases-package 값을 참조합니다.
-        sessionFactory.setTypeAliasesPackage("com.teamgold.goldenharvest.domain");
+        sessionFactory.setTypeAliasesPackage("com.teamgold.goldenharvestsales");
         // application.yaml에 설정된 map-underscore-to-camel-case 값을 참조합니다.
+
+        sessionFactory.setMapperLocations(applicationContext.getResources("classpath:mapper/**/*.xml"));
         org.apache.ibatis.session.Configuration mybatisConfig = new org.apache.ibatis.session.Configuration();
         mybatisConfig.setMapUnderscoreToCamelCase(true);
         sessionFactory.setConfiguration(mybatisConfig);
