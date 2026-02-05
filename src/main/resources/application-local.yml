@@ -55,4 +55,4 @@ server:
   port: ${SERVER_PORT}
 
 inventory:
-  base-url: http://localhost:8088
+  base-url: http://inventory-service:8084
