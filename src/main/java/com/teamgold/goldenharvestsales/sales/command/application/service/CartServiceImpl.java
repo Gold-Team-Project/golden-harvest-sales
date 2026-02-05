@@ -65,13 +65,15 @@ public class CartServiceImpl implements com.teamgold.goldenharvest.domain.sales.
                     () -> new BusinessException(ErrorCode.ORDER_STATUS_NOT_FOUND)
             );
 
+            Double customerPrice = itemInfo.getCurrentOriginPrice() == null ? 0 : itemInfo.getCurrentOriginPrice() * 1.2d;
+
             AvailableItemResponse item = AvailableItemResponse.builder()
                     .skuNo(itemInfo.getSkuNo())
                     .itemName(itemInfo.getItemName())
                     .gradeName(itemInfo.getGradeName())
                     .varietyName(itemInfo.getVarietyName())
                     .baseUnit(itemInfo.getBaseUnit())
-                    .customerPrice(itemInfo.getCurrentOriginPrice() * 1.2d)
+                    .customerPrice(customerPrice)
                     .fileUrl(itemInfo.getFileUrl())
                     .quantity(request.getQuantity())
                     .build();
