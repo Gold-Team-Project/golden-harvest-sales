@@ -30,6 +30,7 @@ public interface DashBoardMapper {
         COUNT(CASE WHEN so.created_at >= CURDATE() THEN 1 END) AS todayOrders,
         COUNT(CASE WHEN so.created_at >= DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY) THEN 1 END) AS weeklyOrders,
         COUNT(CASE WHEN so.created_at >= DATE_SUB(CURDATE(), INTERVAL DAYOFMONTH(CURDATE()) - 1 DAY) THEN 1 END) AS monthlyOrders,
+        COUNT(CASE WHEN so.created_at IS NOT NULL THEN 1 END) AS averageOrders,
         COUNT(CASE WHEN so.created_at IS NOT NULL THEN 1 END) AS totalOrders,
         COUNT(CASE WHEN so.order_status_id = 1 THEN 1 END) AS orderReceived,
         COUNT(CASE WHEN so.order_status_id = 2 THEN 1 END) AS productPreparing,
