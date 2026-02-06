@@ -1,5 +1,6 @@
 package com.teamgold.goldenharvestsales.sales.command.application.event;
 
+import com.teamgold.goldenharvestsales.sales.command.application.event.dto.ItemOriginPriceUpdatedEvent;
 import com.teamgold.goldenharvestsales.sales.command.application.event.dto.UserStatusUpdatedEvent;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class ItemOriginPriceUpdatedConsumer {
 
     @Transactional
     @KafkaListener(topics = "item.origin.price.updated", groupId = "golden.harvest.sales.processor")
-    public void consume(UserStatusUpdatedEvent event) {
+    public void consume(ItemOriginPriceUpdatedEvent event) {
         log.info("item.origin.price.updated event consuming");
 
         eventPublisher.publishEvent(event);
