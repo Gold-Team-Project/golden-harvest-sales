@@ -36,6 +36,7 @@ public class KafkaLocalConfig {
 
         String typeMapping = "ItemMasterUpdatedEvent:com.teamgold.goldenharvestsales.sales.command.application.event.dto.ItemMasterUpdatedEvent, " +
                 "UserStatusUpdatedEvent:com.teamgold.goldenharvestsales.sales.command.application.event.dto.UserStatusUpdatedEvent, " +
+                "SalesOrderResultEvent:com.teamgold.goldenharvestsales.sales.command.application.event.dto.SalesOrderResultEvent, " +
                 "ItemOriginPriceUpdatedEvent:com.teamgold.goldenharvestsales.sales.command.application.event.dto.ItemOriginPriceUpdatedEvent";
         props.put("spring.json.type.mapping", typeMapping);
 
@@ -72,7 +73,7 @@ public class KafkaLocalConfig {
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
 
         String typeMapping =
-                "SalesOrderCreatedEvent:com.teamgold.goldenharvestsales.sales.command.application.event.dto.SalesOrderEvent";
+                "SalesOrderCreatedEvent:com.teamgold.goldenharvestsales.sales.command.application.event.dto.SalesOrderCreatedEvent";
 
         props.put("spring.json.type.mapping", typeMapping);
 
