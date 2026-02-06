@@ -28,7 +28,6 @@ public class MasterEventListener {
                 .gradeName(itemMasterUpdatedEvent.gradeName())
                 .varietyName(itemMasterUpdatedEvent.varietyName())
                 .baseUnit(itemMasterUpdatedEvent.baseUnit())
-                .currentOriginPrice(itemMasterUpdatedEvent.currentOriginPrice().doubleValue())
                 .fileUrl(itemMasterUpdatedEvent.fileUrl())
                 .build();
 
