@@ -2,6 +2,7 @@ package com.teamgold.goldenharvestsales.sales.query.application.service;
 
 
 import com.teamgold.goldenharvestsales.sales.query.application.dto.*;
+import com.teamgold.goldenharvestsales.sales.query.application.dto.response.BestOrderItemResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -14,4 +15,6 @@ public interface SalesOrderQueryService {
     Page<AdminOrderHistoryResponse> getAllOrderHistory(AdminOrderSearchCondition searchCondition, Pageable pageable);
 
     AdminOrderDetailResponse getAdminOrderDetail(String salesOrderId);
+
+    BestOrderItemResponse getBestOrderItem();
 }

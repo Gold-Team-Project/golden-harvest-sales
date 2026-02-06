@@ -50,4 +50,10 @@ public class SalesOrderQueryController {
         AdminOrderDetailResponse orderDetail = salesOrderQueryService.getAdminOrderDetail(salesOrderId);
         return ResponseEntity.ok(ApiResponse.success(orderDetail));
     }
+
+    @GetMapping("/best-order")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<?>> getBestOrderItem() {
+        return ResponseEntity.ok(ApiResponse.success(salesOrderQueryService.getBestOrderItem()));
+    }
 }
