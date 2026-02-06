@@ -4,6 +4,8 @@ package com.teamgold.goldenharvestsales.sales.query.application.service;
 import com.teamgold.goldenharvestsales.common.exception.BusinessException;
 import com.teamgold.goldenharvestsales.common.exception.ErrorCode;
 import com.teamgold.goldenharvestsales.sales.query.application.dto.*;
+import com.teamgold.goldenharvestsales.sales.query.application.dto.response.BestOrderItemResponse;
+import com.teamgold.goldenharvestsales.sales.query.application.mapper.DashBoardMapper;
 import com.teamgold.goldenharvestsales.sales.query.application.mapper.SalesOrderMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,6 +22,7 @@ import java.util.List;
 public class SalesOrderQueryServiceImpl implements SalesOrderQueryService {
 
     private final SalesOrderMapper salesOrderMapper;
+    private final DashBoardMapper dashBoardMapper;
 
     @Override
     public Page<OrderHistoryResponse> getMyOrderHistory(String userEmail, MyOrderSearchCondition searchCondition, Pageable pageable) {
@@ -51,5 +54,10 @@ public class SalesOrderQueryServiceImpl implements SalesOrderQueryService {
             throw new BusinessException(ErrorCode.ORDER_NOT_FOUND);
         }
         return orderDetail;
+    }
+
+    @Override
+    public BestOrderItemResponse getBestOrderItem() {
+        return dashBoardMapper.findBestOrder();
     }
 }

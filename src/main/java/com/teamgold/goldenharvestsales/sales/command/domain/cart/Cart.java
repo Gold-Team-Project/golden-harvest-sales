@@ -22,7 +22,7 @@ public class Cart {
     @Column(name = "cart_id", length = 36, nullable = false)
     private String cartId; // 고유 번호
 
-    @Column(name = "user_email", length = 20, nullable = false)
+    @Column(name = "user_email", length = 30, nullable = false)
     private String userEmail;
 
     @Enumerated(EnumType.STRING)
