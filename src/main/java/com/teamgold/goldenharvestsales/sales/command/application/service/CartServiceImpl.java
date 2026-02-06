@@ -182,7 +182,7 @@ public class CartServiceImpl implements com.teamgold.goldenharvest.domain.sales.
         // 2. tb_sales_order와 tb_sales_order_item에 주문 정보 저장
         // ----------------------------------------------------
         String salesOrderId = UUID.randomUUID().toString();
-        SalesOrderStatus defaultOrderStatus = salesOrderStatusRepository.findBySalesStatusType("PENDING")
+        SalesOrderStatus defaultOrderStatus = salesOrderStatusRepository.findBySalesStatusType("ORDER_RECEIVED")
                 .orElseThrow(() -> new BusinessException(ErrorCode.RESOURCE_NOT_FOUND));
 
         BigDecimal totalAmount = redisCartItems.values().stream()
