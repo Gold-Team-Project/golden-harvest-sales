@@ -32,4 +32,9 @@ public class SalesSku {
 
     @Column(name = "current_origin_price")
     private Double currentOriginPrice;
+
+    public Double updateOriginPrice(Double currentOriginPrice) {
+        this.currentOriginPrice = currentOriginPrice;
+        return this.currentOriginPrice;
+    }
 }

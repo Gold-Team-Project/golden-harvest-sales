@@ -3,6 +3,7 @@ package com.teamgold.goldenharvestsales.sales.command.application.event;
 import com.teamgold.goldenharvestsales.sales.command.application.event.dto.ItemMasterUpdatedEvent;
 import com.teamgold.goldenharvestsales.sales.command.domain.SalesSku;
 import com.teamgold.goldenharvestsales.sales.command.infrastructure.repository.SalesSkuRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -18,6 +19,7 @@ public class MasterEventListener {
 
     @Async
     @EventListener
+    @Transactional
     public void handleSkuInfoChange(ItemMasterUpdatedEvent itemMasterUpdatedEvent) {
         log.info("SKU 정보 변경 이벤트 수신 : {}", itemMasterUpdatedEvent.skuNo());
         SalesSku salesSku = SalesSku.builder()
@@ -26,7 +28,6 @@ public class MasterEventListener {
                 .gradeName(itemMasterUpdatedEvent.gradeName())
                 .varietyName(itemMasterUpdatedEvent.varietyName())
                 .baseUnit(itemMasterUpdatedEvent.baseUnit())
-                .currentOriginPrice(itemMasterUpdatedEvent.currentOriginPrice().doubleValue())
                 .fileUrl(itemMasterUpdatedEvent.fileUrl())
                 .build();
 
