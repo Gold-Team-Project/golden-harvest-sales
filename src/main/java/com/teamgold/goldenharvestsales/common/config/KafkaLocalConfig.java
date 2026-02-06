@@ -35,7 +35,8 @@ public class KafkaLocalConfig {
         props.put("spring.json.use.type.headers", true);
 
         String typeMapping = "ItemMasterUpdatedEvent:com.teamgold.goldenharvestsales.sales.command.application.event.dto.ItemMasterUpdatedEvent, " +
-                "UserStatusUpdatedEvent:com.teamgold.goldenharvestsales.sales.command.application.event.dto.UserStatusUpdatedEvent";
+                "UserStatusUpdatedEvent:com.teamgold.goldenharvestsales.sales.command.application.event.dto.UserStatusUpdatedEvent, " +
+                "ItemOriginPriceUpdatedEvent:com.teamgold.goldenharvestsales.sales.command.application.event.dto.ItemOriginPriceUpdatedEvent";
         props.put("spring.json.type.mapping", typeMapping);
 
         props.put("spring.json.trusted.packages", "*");
