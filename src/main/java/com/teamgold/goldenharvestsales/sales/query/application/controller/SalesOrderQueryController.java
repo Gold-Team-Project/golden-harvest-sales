@@ -56,4 +56,14 @@ public class SalesOrderQueryController {
     public ResponseEntity<ApiResponse<?>> getBestOrderItem() {
         return ResponseEntity.ok(ApiResponse.success(salesOrderQueryService.getBestOrderItem()));
     }
+
+    @GetMapping("/user-order")
+    public ResponseEntity<ApiResponse<?>> getUserOrderInfo(@AuthenticationPrincipal Jwt jwt) {
+        return ResponseEntity.ok(ApiResponse.success(salesOrderQueryService.getUserOrderInfo(jwt.getSubject())));
+    }
+
+    @GetMapping("/user-frequent-orders")
+    public ResponseEntity<ApiResponse<?>> getUserFrequentOrders(@AuthenticationPrincipal Jwt jwt) {
+        return ResponseEntity.ok(ApiResponse.success(salesOrderQueryService.getUserFrequentOrders(jwt.getSubject())));
+    }
 }

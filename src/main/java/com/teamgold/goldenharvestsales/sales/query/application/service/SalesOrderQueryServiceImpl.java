@@ -5,6 +5,8 @@ import com.teamgold.goldenharvestsales.common.exception.BusinessException;
 import com.teamgold.goldenharvestsales.common.exception.ErrorCode;
 import com.teamgold.goldenharvestsales.sales.query.application.dto.*;
 import com.teamgold.goldenharvestsales.sales.query.application.dto.response.BestOrderItemResponse;
+import com.teamgold.goldenharvestsales.sales.query.application.dto.response.UserFrequentOrderResponse;
+import com.teamgold.goldenharvestsales.sales.query.application.dto.response.UserOrderInfoResponse;
 import com.teamgold.goldenharvestsales.sales.query.application.mapper.DashBoardMapper;
 import com.teamgold.goldenharvestsales.sales.query.application.mapper.SalesOrderMapper;
 import lombok.RequiredArgsConstructor;
@@ -59,5 +61,15 @@ public class SalesOrderQueryServiceImpl implements SalesOrderQueryService {
     @Override
     public BestOrderItemResponse getBestOrderItem() {
         return dashBoardMapper.findBestOrder();
+    }
+
+    @Override
+    public UserOrderInfoResponse getUserOrderInfo(String userEmail) {
+        return dashBoardMapper.findUserOrderInfo(userEmail);
+    }
+
+    @Override
+    public List<UserFrequentOrderResponse> getUserFrequentOrders(String userEmail) {
+        return dashBoardMapper.findAllUserFrequentOrders(userEmail);
     }
 }
