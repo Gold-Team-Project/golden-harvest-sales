@@ -19,6 +19,7 @@ public class AdminOrderDetailResponse {
     private LocalDate createdAt; // 생성일
     private BigDecimal totalAmount; // 총 가격
     private String company; // 회사 이름
+    private String orderStatusType; // 상태 타입 (English)
 
     private String name; // 고객 이름
     private String phoneNumber; // 고객 전화번호
