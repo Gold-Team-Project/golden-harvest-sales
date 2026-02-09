@@ -30,6 +30,7 @@ public interface DashBoardMapper {
         COUNT(CASE WHEN so.created_at >= CURDATE() THEN 1 END) AS todayOrders,
         COUNT(CASE WHEN so.created_at >= DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY) THEN 1 END) AS weeklyOrders,
         COUNT(CASE WHEN so.created_at >= DATE_SUB(CURDATE(), INTERVAL DAYOFMONTH(CURDATE()) - 1 DAY) THEN 1 END) AS monthlyOrders,
+        COUNT(CASE WHEN so.created_at IS NOT NULL THEN 1 END) AS averageOrders,
         COUNT(CASE WHEN so.created_at IS NOT NULL THEN 1 END) AS totalOrders,
         COUNT(CASE WHEN so.order_status_id = 1 THEN 1 END) AS orderReceived,
         COUNT(CASE WHEN so.order_status_id = 2 THEN 1 END) AS productPreparing,
@@ -50,6 +51,8 @@ public interface DashBoardMapper {
     FROM tb_sales_order_item soi
     JOIN tb_sales_sku ss
     ON soi.sku_no = ss.sku_no
+    JOIN tb_sales_order so
+    ON soi.sales_order_id = so.sales_order_id
     WHERE ss.user_email = #{userEmail}
     GROUP BY ss.item_name, ss.variety_name, ss.file_url
     ORDER BY orderCount DESC
