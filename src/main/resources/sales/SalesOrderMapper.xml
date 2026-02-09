@@ -96,7 +96,7 @@
         v.variety_name,
         soi.quantity AS item_quantity,
         soi.price AS item_price,
-        sku.file_url
+        s.file_url
         FROM
         tb_sales_order so
         JOIN
