@@ -16,5 +16,6 @@ public class OrderHistoryItem {
     private String gradeName; // 등급명
     private String varietyName; // 상품명
     private Integer quantity; // 수량
-    private BigDecimal price; //  가격
+    private BigDecimal price; // 가격
+    private String fileUrl; // 이미지 URL
 }

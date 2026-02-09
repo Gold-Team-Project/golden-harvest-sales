@@ -24,4 +24,5 @@ public class OrderHistoryItemDetailResponse {
     private int quantity;
     private BigDecimal price;
     private BigDecimal totalPrice;
+    private String fileUrl;
 }

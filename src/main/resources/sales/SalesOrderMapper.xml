@@ -25,6 +25,7 @@
             <result property="varietyName" column="variety_name"/>
             <result property="quantity" column="item_quantity"/>
             <result property="price" column="item_price"/>
+            <result property="fileUrl" column="file_url"/>
         </collection>
     </resultMap>
 
@@ -41,6 +42,7 @@
             <result property="varietyName" column="variety_name"/>
             <result property="quantity" column="item_quantity"/>
             <result property="price" column="item_price"/>
+            <result property="fileUrl" column="file_url"/>
         </collection>
     </resultMap>
 
@@ -62,6 +64,7 @@
             <result property="varietyName" column="variety_name"/>
             <result property="quantity" column="item_quantity"/>
             <result property="price" column="item_price"/>
+            <result property="fileUrl" column="file_url"/>
         </collection>
     </resultMap>
 
@@ -77,6 +80,7 @@
         <result property="quantity" column="item_quantity"/>
         <result property="price" column="item_price"/>
         <result property="totalPrice" column="total_price"/>
+        <result property="fileUrl" column="file_url"/>
     </resultMap>
 
     <select id="findAllOrderHistory" resultMap="adminOrderHistoryResultMap">
@@ -91,7 +95,8 @@
         g.grade_name,
         v.variety_name,
         soi.quantity AS item_quantity,
-        soi.price AS item_price
+        soi.price AS item_price,
+        sku.file_url
         FROM
         tb_sales_order so
         JOIN
@@ -163,7 +168,8 @@
         sku.grade_name,
         sku.variety_name,
         soi.quantity AS item_quantity,
-        soi.price AS item_price
+        soi.price AS item_price,
+        sku.file_url
         FROM
         tb_sales_order so
         JOIN
@@ -223,7 +229,8 @@
             sku.grade_name,
             sku.variety_name,
             soi.quantity AS item_quantity,
-            soi.price AS item_price
+            soi.price AS item_price,
+            sku.file_url
         FROM
             tb_sales_order so
                 JOIN
@@ -255,7 +262,8 @@
             sku.grade_name,
             sku.variety_name,
             soi.quantity AS item_quantity,
-            soi.price AS item_price
+            soi.price AS item_price,
+            sku.file_url
         FROM
             tb_sales_order so
                 JOIN
@@ -282,7 +290,8 @@
         sku.variety_name,
         soi.quantity AS item_quantity,
         soi.price AS item_price,
-        (soi.quantity * soi.price) AS total_price
+        (soi.quantity * soi.price) AS total_price,
+        sku.file_url
         FROM
         tb_sales_order_item soi
         JOIN
