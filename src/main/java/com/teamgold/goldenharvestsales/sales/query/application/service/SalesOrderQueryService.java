@@ -1,6 +1,5 @@
 package com.teamgold.goldenharvestsales.sales.query.application.service;
 
-
 import com.teamgold.goldenharvestsales.sales.query.application.dto.*;
 import com.teamgold.goldenharvestsales.sales.query.application.dto.response.BestOrderItemResponse;
 import com.teamgold.goldenharvestsales.sales.query.application.dto.response.UserFrequentOrderResponse;
@@ -12,7 +11,8 @@ import java.util.List;
 
 public interface SalesOrderQueryService {
 
-    Page<OrderHistoryResponse> getMyOrderHistory(String userEmail, MyOrderSearchCondition searchCondition, Pageable pageable);
+    Page<OrderHistoryItemDetailResponse> getMyOrderHistory(String userEmail, MyOrderSearchCondition searchCondition,
+                                                           Pageable pageable);
 
     OrderHistoryResponse getOrderDetail(String salesOrderId);
 

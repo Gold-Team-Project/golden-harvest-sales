@@ -17,6 +17,7 @@ public class CartItemResponse {
     private int quantity;
     private BigDecimal unitPrice;
     private BigDecimal totalPrice; // (quantity * unitPrice)
+    private String fileUrl;
 
     public static CartItemResponse fromRedisCartItem(RedisCartItem redisCartItem) {
         BigDecimal totalPrice = redisCartItem.getUnitPrice().multiply(BigDecimal.valueOf(redisCartItem.getQuantity()));
@@ -28,6 +29,7 @@ public class CartItemResponse {
                 .quantity(redisCartItem.getQuantity())
                 .unitPrice(redisCartItem.getUnitPrice())
                 .totalPrice(totalPrice)
+                .fileUrl(redisCartItem.getFileUrl())
                 .build();
     }
 }

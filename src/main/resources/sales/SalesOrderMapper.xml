@@ -6,6 +6,7 @@
     <resultMap id="orderHistoryResultMap" type="com.teamgold.goldenharvestsales.sales.query.application.dto.OrderHistoryResponse">
         <id property="salesOrderId" column="sales_order_id"/>
         <result property="orderStatus" column="sales_status_name"/>
+        <result property="orderStatusType" column="sales_status_type"/>
         <result property="createdAt" column="created_at"/>
         <result property="totalAmount" column="total_amount"/>
         <association property="customerInfo" javaType="com.teamgold.goldenharvestsales.sales.query.application.dto.SalesCustomerInfo">
@@ -30,6 +31,7 @@
     <resultMap id="adminOrderHistoryResultMap" type="com.teamgold.goldenharvestsales.sales.query.application.dto.AdminOrderHistoryResponse">
         <id property="salesOrderId" column="sales_order_id"/>
         <result property="orderStatus" column="sales_status_name"/>
+        <result property="orderStatusType" column="sales_status_type"/>
         <result property="createdAt" column="created_at"/>
         <result property="totalAmount" column="total_amount"/>
         <result property="company" column="company"/>
@@ -45,6 +47,7 @@
     <resultMap id="adminOrderDetailResultMap" type="com.teamgold.goldenharvestsales.sales.query.application.dto.AdminOrderDetailResponse">
         <id property="salesOrderId" column="sales_order_id"/>
         <result property="orderStatus" column="sales_status_name"/>
+        <result property="orderStatusType" column="sales_status_type"/>
         <result property="createdAt" column="created_at"/>
         <result property="totalAmount" column="total_amount"/>
         <result property="company" column="company"/>
@@ -62,34 +65,49 @@
         </collection>
     </resultMap>
 
+    <resultMap id="orderHistoryItemDetailResultMap" type="com.teamgold.goldenharvestsales.sales.query.application.dto.OrderHistoryItemDetailResponse">
+        <result property="salesOrderItemId" column="sales_order_item_id"/>
+        <result property="salesOrderId" column="sales_order_id"/>
+        <result property="orderStatus" column="sales_status_name"/>
+        <result property="orderStatusType" column="sales_status_type"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="itemName" column="item_name"/>
+        <result property="gradeName" column="grade_name"/>
+        <result property="varietyName" column="variety_name"/>
+        <result property="quantity" column="item_quantity"/>
+        <result property="price" column="item_price"/>
+        <result property="totalPrice" column="total_price"/>
+    </resultMap>
+
     <select id="findAllOrderHistory" resultMap="adminOrderHistoryResultMap">
         SELECT
-            so.sales_order_id,
-            sos.sales_status_name,
-            so.created_at,
-            so.total_amount,
-            sc.customer_company AS company,
-            pm.item_name,
-            g.grade_name,
-            v.variety_name,
-            soi.quantity AS item_quantity,
-            soi.price AS item_price
+        so.sales_order_id,
+        sos.sales_status_name,
+        sos.sales_status_type,
+        so.created_at,
+        so.total_amount,
+        sc.customer_company AS company,
+        pm.item_name,
+        g.grade_name,
+        v.variety_name,
+        soi.quantity AS item_quantity,
+        soi.price AS item_price
         FROM
-            tb_sales_order so
-                JOIN
-            tb_sales_order_status sos ON so.order_status_id = sos.sales_status_id
-                LEFT JOIN
-            tb_sales_order_item soi ON so.sales_order_id = soi.sales_order_id
-                LEFT JOIN
-            tb_sku s ON soi.sku_no = s.sku_no
-                LEFT JOIN
-            tb_variety v ON s.item_code = v.item_code AND s.variety_code = v.variety_code
-                LEFT JOIN
-            tb_produce_master pm ON v.item_code = pm.item_code
-                LEFT JOIN
-            tb_grade g ON s.grade_code = g.grade_code
-                LEFT JOIN
-            tb_sales_customer_info sc ON so.user_email = sc.customer_email
+        tb_sales_order so
+        JOIN
+        tb_sales_order_status sos ON so.order_status_id = sos.sales_status_id
+        LEFT JOIN
+        tb_sales_order_item soi ON so.sales_order_id = soi.sales_order_id
+        LEFT JOIN
+        tb_sku s ON soi.sku_no = s.sku_no
+        LEFT JOIN
+        tb_variety v ON s.item_code = v.item_code AND s.variety_code = v.variety_code
+        LEFT JOIN
+        tb_produce_master pm ON v.item_code = pm.item_code
+        LEFT JOIN
+        tb_grade g ON s.grade_code = g.grade_code
+        LEFT JOIN
+        tb_sales_customer_info sc ON so.user_email = sc.customer_email
         <where>
             <if test="searchCondition.startDate != null">
                 AND so.created_at >= #{searchCondition.startDate}
@@ -105,19 +123,19 @@
             </if>
         </where>
         ORDER BY
-            so.created_at DESC
+        so.created_at DESC
         LIMIT #{pageable.pageSize} OFFSET #{pageable.offset}
     </select>
 
     <select id="countAllOrderHistory" resultType="long">
         SELECT
-            COUNT(so.sales_order_id)
+        COUNT(so.sales_order_id)
         FROM
-            tb_sales_order so
-                JOIN
-            tb_sales_order_status sos ON so.order_status_id = sos.sales_status_id
-                LEFT JOIN
-            tb_sales_customer_info sc ON so.user_email = sc.customer_email
+        tb_sales_order so
+        JOIN
+        tb_sales_order_status sos ON so.order_status_id = sos.sales_status_id
+        LEFT JOIN
+        tb_sales_customer_info sc ON so.user_email = sc.customer_email
         <where>
             <if test="searchCondition.startDate != null">
                 AND so.created_at >= #{searchCondition.startDate}
@@ -136,23 +154,24 @@
 
     <select id="findOrderHistoryByUserEmail" resultMap="orderHistoryResultMap">
         SELECT
-            so.sales_order_id,
-            sos.sales_status_name,
-            so.created_at,
-            so.total_amount,
-            sku.item_name,
-            sku.grade_name,
-            sku.variety_name,
-            soi.quantity AS item_quantity,
-            soi.price AS item_price
+        so.sales_order_id,
+        sos.sales_status_name,
+        sos.sales_status_type,
+        so.created_at,
+        so.total_amount,
+        sku.item_name,
+        sku.grade_name,
+        sku.variety_name,
+        soi.quantity AS item_quantity,
+        soi.price AS item_price
         FROM
-            tb_sales_order so
-                JOIN
-            tb_sales_order_status sos ON so.order_status_id = sos.sales_status_id
-                LEFT JOIN
-            tb_sales_order_item soi ON so.sales_order_id = soi.sales_order_id
-                LEFT JOIN
-            tb_sales_sku sku ON soi.sku_no = sku.sku_no
+        tb_sales_order so
+        JOIN
+        tb_sales_order_status sos ON so.order_status_id = sos.sales_status_id
+        LEFT JOIN
+        tb_sales_order_item soi ON so.sales_order_id = soi.sales_order_id
+        LEFT JOIN
+        tb_sales_sku sku ON soi.sku_no = sku.sku_no
         <where>
             so.user_email = #{userEmail}
             <if test="condition.startDate != null">
@@ -163,17 +182,17 @@
             </if>
         </where>
         ORDER BY
-            so.created_at DESC
+        so.created_at DESC
         LIMIT #{pageable.pageSize} OFFSET #{pageable.offset}
     </select>
 
     <select id="countOrderHistoryByUserEmail" resultType="long">
         SELECT
-            COUNT(so.sales_order_id)
+        COUNT(so.sales_order_id)
         FROM
-            tb_sales_order so
-                JOIN
-            tb_sales_order_status sos ON so.order_status_id = sos.sales_status_id
+        tb_sales_order so
+        JOIN
+        tb_sales_order_status sos ON so.order_status_id = sos.sales_status_id
         <where>
             so.user_email = #{userEmail}
             <if test="condition.startDate != null">
@@ -189,6 +208,7 @@
         SELECT
             so.sales_order_id,
             sos.sales_status_name,
+            sos.sales_status_type,
             so.created_at,
             so.total_amount,
             sci.customer_email,
@@ -222,6 +242,7 @@
         SELECT
             so.sales_order_id,
             sos.sales_status_name,
+            sos.sales_status_type,
             so.created_at,
             so.total_amount,
             sci.customer_company AS company,
@@ -247,6 +268,59 @@
             tb_sales_sku sku ON soi.sku_no = sku.sku_no
         WHERE
             so.sales_order_id = #{salesOrderId}
+    </select>
+
+    <select id="findOrderHistoryItemsByUserEmail" resultMap="orderHistoryItemDetailResultMap">
+        SELECT
+        soi.sales_order_item_id,
+        so.sales_order_id,
+        sos.sales_status_name,
+        sos.sales_status_type,
+        so.created_at,
+        sku.item_name,
+        sku.grade_name,
+        sku.variety_name,
+        soi.quantity AS item_quantity,
+        soi.price AS item_price,
+        (soi.quantity * soi.price) AS total_price
+        FROM
+        tb_sales_order_item soi
+        JOIN
+        tb_sales_order so ON soi.sales_order_id = so.sales_order_id
+        JOIN
+        tb_sales_order_status sos ON so.order_status_id = sos.sales_status_id
+        LEFT JOIN
+        tb_sales_sku sku ON soi.sku_no = sku.sku_no
+        <where>
+            so.user_email = #{userEmail}
+            <if test="condition.startDate != null">
+                AND so.created_at >= #{condition.startDate}
+            </if>
+            <if test="condition.endDate != null">
+                AND so.created_at &lt;= #{condition.endDate}
+            </if>
+        </where>
+        ORDER BY
+        so.created_at DESC, soi.sales_order_item_id DESC
+        LIMIT #{pageable.pageSize} OFFSET #{pageable.offset}
+    </select>
+
+    <select id="countOrderHistoryItemsByUserEmail" resultType="long">
+        SELECT
+        COUNT(soi.sales_order_item_id)
+        FROM
+        tb_sales_order_item soi
+        JOIN
+        tb_sales_order so ON soi.sales_order_id = so.sales_order_id
+        <where>
+            so.user_email = #{userEmail}
+            <if test="condition.startDate != null">
+                AND so.created_at >= #{condition.startDate}
+            </if>
+            <if test="condition.endDate != null">
+                AND so.created_at &lt;= #{condition.endDate}
+            </if>
+        </where>
     </select>
 
 </mapper>

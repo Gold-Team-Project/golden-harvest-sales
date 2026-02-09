@@ -1,6 +1,5 @@
 package com.teamgold.goldenharvestsales.sales.query.application.service;
 
-
 import com.teamgold.goldenharvestsales.common.exception.BusinessException;
 import com.teamgold.goldenharvestsales.common.exception.ErrorCode;
 import com.teamgold.goldenharvestsales.sales.query.application.dto.*;
@@ -27,9 +26,11 @@ public class SalesOrderQueryServiceImpl implements SalesOrderQueryService {
     private final DashBoardMapper dashBoardMapper;
 
     @Override
-    public Page<OrderHistoryResponse> getMyOrderHistory(String userEmail, MyOrderSearchCondition searchCondition, Pageable pageable) {
-        long totalCount = salesOrderMapper.countOrderHistoryByUserEmail(userEmail, searchCondition);
-        List<OrderHistoryResponse> orderHistory = salesOrderMapper.findOrderHistoryByUserEmail(userEmail, searchCondition, pageable);
+    public Page<OrderHistoryItemDetailResponse> getMyOrderHistory(String userEmail,
+                                                                  MyOrderSearchCondition searchCondition, Pageable pageable) {
+        long totalCount = salesOrderMapper.countOrderHistoryItemsByUserEmail(userEmail, searchCondition);
+        List<OrderHistoryItemDetailResponse> orderHistory = salesOrderMapper.findOrderHistoryItemsByUserEmail(userEmail,
+                searchCondition, pageable);
         return new PageImpl<>(orderHistory, pageable, totalCount);
     }
 
@@ -43,7 +44,8 @@ public class SalesOrderQueryServiceImpl implements SalesOrderQueryService {
     }
 
     @Override
-    public Page<AdminOrderHistoryResponse> getAllOrderHistory(AdminOrderSearchCondition searchCondition, Pageable pageable) {
+    public Page<AdminOrderHistoryResponse> getAllOrderHistory(AdminOrderSearchCondition searchCondition,
+                                                              Pageable pageable) {
         long totalCount = salesOrderMapper.countAllOrderHistory(searchCondition);
         List<AdminOrderHistoryResponse> orderHistory = salesOrderMapper.findAllOrderHistory(searchCondition, pageable);
         return new PageImpl<>(orderHistory, pageable, totalCount);

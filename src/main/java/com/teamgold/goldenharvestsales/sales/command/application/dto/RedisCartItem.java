@@ -20,6 +20,7 @@ public class RedisCartItem implements Serializable {
     private String varietyName;
     private int quantity;
     private BigDecimal unitPrice;
+    private String fileUrl;
 
     public static RedisCartItem from(SalesSku salesSku, int quantity, BigDecimal unitPrice) {
         return RedisCartItem.builder()
@@ -29,6 +30,7 @@ public class RedisCartItem implements Serializable {
                 .varietyName(salesSku.getVarietyName())
                 .quantity(quantity)
                 .unitPrice(unitPrice)
+                .fileUrl(salesSku.getFileUrl())
                 .build();
     }
 
@@ -40,6 +42,7 @@ public class RedisCartItem implements Serializable {
                 .varietyName(item.getVarietyName())
                 .quantity(quantity)
                 .unitPrice(BigDecimal.valueOf(item.getCustomerPrice()))
+                .fileUrl(item.getFileUrl())
                 .build();
     }
 
