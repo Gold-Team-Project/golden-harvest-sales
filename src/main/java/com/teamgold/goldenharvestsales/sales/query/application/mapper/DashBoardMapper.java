@@ -51,6 +51,8 @@ public interface DashBoardMapper {
     FROM tb_sales_order_item soi
     JOIN tb_sales_sku ss
     ON soi.sku_no = ss.sku_no
+    JOIN tb_sales_order so
+    ON soi.sales_order_id = so.sales_order_id
     WHERE ss.user_email = #{userEmail}
     GROUP BY ss.item_name, ss.variety_name, ss.file_url
     ORDER BY orderCount DESC
